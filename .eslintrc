@@ -1,0 +1,152 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/typescript",
+        "airbnb-typescript/base",
+        "plugin:jest/recommended"
+    ],
+    "plugins": ["import", "@typescript-eslint", "jest"],
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "globals": {
+        "document": false
+    },
+    "rules": {
+        "semi": "error",
+        "@typescript-eslint/ban-types": "warn",
+        "no-empty": "warn",
+        "@typescript-eslint/no-duplicate-enum-values": "warn",
+        "no-use-before-define": "warn",
+        "@typescript-eslint/no-use-before-define": "warn",
+        "jest/no-conditional-expect": "off",
+        "no-cond-assign": "warn",
+        "jest/no-alias-methods": "off",
+        "@typescript-eslint/indent": [
+            "warn",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "@typescript-eslint/consistent-type-imports": [
+            "warn",
+            {
+                "prefer": "type-imports"
+            }
+        ],
+        "@typescript-eslint/member-delimiter-style": [
+            "warn",
+            {
+                "multiline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                },
+                "singleline": {
+                    "delimiter": "semi",
+                    "requireLast": false
+                }
+            }
+        ],
+        "arrow-body-style": ["warn", "as-needed"],
+        "no-case-declarations": 0,
+        "no-await-in-loop": "warn",
+        "@typescript-eslint/no-empty-interface": 0,
+        "no-unused-vars": [
+            "off",
+            {
+                "args": "all",
+                "argsIgnorePattern": "/^_/u",
+                "destructuredArrayIgnorePattern": "/^_/u"
+            }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_"
+            }
+        ],
+        "import/no-unresolved": "warn",
+        "no-fallthrough": [
+            "warn",
+            {
+                "allowEmptyCase": true
+            }
+        ],
+        "@typescript-eslint/comma-dangle": [
+            "warn",
+            {
+                "arrays": "only-multiline",
+                "objects": "only-multiline",
+                "imports": "only-multiline",
+                "exports": "only-multiline",
+                "functions": "only-multiline",
+                "enums": "only-multiline",
+                "generics": "only-multiline",
+                "tuples": "only-multiline"
+            }
+        ],
+        "prefer-template": 0,
+        "no-path-concat": "warn",
+        "max-len": ["warn", 150],
+        "no-plusplus": 0,
+        "import/extensions": [
+            "off",
+            "ignorePackages",
+            {
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "@typescript-eslint/lines-between-class-members": 0,
+        "quotes": [
+            "warn",
+            "single",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true,
+                "optionalDependencies": false,
+                "peerDependencies": false
+            }
+        ],
+        "import/prefer-default-export": 0,
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/ban-ts-comment": "warn",
+        "@typescript-eslint/no-non-null-assertion": "warn",
+        "@typescript-eslint/dot-notation": "warn",
+        "jest/no-disabled-tests": 0,
+        "jest/no-focused-tests": "error",
+        "jest/no-identical-title": "error",
+        "jest/prefer-to-have-length": "warn",
+        "@typescript-eslint/no-inferrable-types": "warn",
+        "jest/valid-expect": "warn",
+        "@typescript-eslint/return-await": ["warn", "always"],
+        "no-return-await": "off"
+    },
+    "parserOptions": {
+        "project": ["./tsconfig.json"],
+        "sourceType": "module",
+        "ecmaVersion": 2020
+    },
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
+    }
+}
