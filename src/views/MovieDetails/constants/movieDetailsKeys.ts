@@ -1,0 +1,16 @@
+export const movieDetailsKeys = [
+    'Released',
+    'Genre',
+    'Director',
+    'Writer',
+    'Actors',
+    'Language',
+    'Country',
+    'Awards',
+    'Metascore',
+    'Type',
+    'DVD',
+    'BoxOffice',
+    'Production',
+    'Website',
+];

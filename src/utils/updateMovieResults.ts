@@ -12,9 +12,8 @@ export async function updateMovieResults(
     perPage: number,
     page: number,
     setPagination: React.Dispatch<React.SetStateAction<Pagination>>,
-    setSearchedMovies: React.Dispatch<
-    React.SetStateAction<Array<ListingMovie> | null>
-    >,
+    setSearchedMovies: React.Dispatch<React.SetStateAction<Array<ListingMovie> | null>>,
+    setNoResults: React.Dispatch<React.SetStateAction<boolean>>,
 ) {
     const response = await MovieApi.fetchMovies(
         searchTitle,
@@ -23,6 +22,9 @@ export async function updateMovieResults(
         page,
         perPage,
     );
+    if (!response.Search) {
+        setNoResults(true);
+    }
     setSearchedMovies(response.Search ?? []);
     const newTotalPages = Math.ceil(Number(response.totalResults) / perPage);
     setPagination((prevState) => ({ ...prevState, totalPages: newTotalPages }));

@@ -16,6 +16,7 @@ export function Pagination() {
         setSearchedMovies,
         setIsFetching,
         isFetching,
+        setNoResults,
     } = useMovieContext();
 
     const handlePageChange = useCallback(
@@ -31,6 +32,7 @@ export function Pagination() {
                 newPage,
                 setPagination,
                 setSearchedMovies,
+                setNoResults,
             );
             setIsFetching(false);
         },

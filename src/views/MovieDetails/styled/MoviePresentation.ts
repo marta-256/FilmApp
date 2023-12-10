@@ -32,6 +32,29 @@ export const MoviePresentation = styled.section`
 
             .details {
                 width: 100%;
+
+                .movie-link {
+                    color: #14b7e0;
+                    text-decoration: none;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+
+                    .imdb-icon {
+                        width: 25px;
+                        height: 25px;
+                        margin-left: 10px;
+                        border-radius: 2px;
+                    }
+
+                    &:visited {
+                        color: #418aba;
+                    }
+
+                    &:hover {
+                        color: #e0009e;
+                    }
+                }
             }
 
             .plot {

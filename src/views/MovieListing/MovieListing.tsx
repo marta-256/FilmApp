@@ -11,12 +11,13 @@ export function MovieListing(): React.ReactElement {
     const {
         searchedMovies,
         pagination: { totalPages },
+        noResults,
     } = useMovieContext();
 
     return (
         <ListingSection className="App-header">
             <header>
-                <h1>Enter the title of the movie you are looking for</h1>
+                <h1>Search for a movie</h1>
             </header>
             <section>
                 <SearchMovieForm />
@@ -36,11 +37,11 @@ export function MovieListing(): React.ReactElement {
                                 />
                             </a>
                         ))
-                    ) : (
+                    ) : noResults ? (
                         <section>
-                            <p>We didn't find such a movie for this search</p>
+                            <p>No results. Try with different search.</p>
                         </section>
-                    )}
+                    ) : null}
                 </article>
                 {totalPages > 1 ? <Pagination /> : null}
             </section>

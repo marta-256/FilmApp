@@ -22,27 +22,27 @@ export function SearchMovieForm() {
         setPagination,
         isFetching,
         setIsFetching,
+        setNoResults,
     } = useMovieContext();
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTitle(event.target.value);
-        setPagination(paginationInitialState);
     };
 
     const handleYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchYear(event.target.value);
-        setPagination(paginationInitialState);
     };
 
     const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSearchType(event.target.value);
-        setPagination(paginationInitialState);
     };
 
     const handleSubmit = useCallback(
         async (event: React.ChangeEvent<HTMLFormElement>) => {
             event.preventDefault();
             setIsFetching(true);
+            setNoResults(false);
+            setPagination(paginationInitialState);
             await updateMovieResults(
                 searchTitle,
                 searchYear,
@@ -51,6 +51,7 @@ export function SearchMovieForm() {
                 page,
                 setPagination,
                 setSearchedMovies,
+                setNoResults,
             );
             setIsFetching(false);
         },
@@ -71,6 +72,7 @@ export function SearchMovieForm() {
                 type="number"
                 className="search-input search-field"
                 placeholder="Year"
+                min={1888}
                 onChange={handleYearChange}
                 value={searchYear}
             />

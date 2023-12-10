@@ -16,13 +16,13 @@ interface MoviesListProviderContextType {
     searchType: string;
     setSearchType: React.Dispatch<React.SetStateAction<string>>;
     searchedMovies: Array<ListingMovie> | null;
-    setSearchedMovies: React.Dispatch<
-    React.SetStateAction<Array<ListingMovie> | null>
-    >;
+    setSearchedMovies: React.Dispatch<React.SetStateAction<Array<ListingMovie> | null>>;
     pagination: Pagination;
     setPagination: React.Dispatch<React.SetStateAction<Pagination>>;
     isFetching: boolean;
     setIsFetching: React.Dispatch<React.SetStateAction<boolean>>;
+    noResults: boolean;
+    setNoResults: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface MoviesListProviderProps {
@@ -59,6 +59,7 @@ export function MoviesListProvider({
     children,
 }: MoviesListProviderProps): React.ReactElement {
     const [isFetching, setIsFetching] = useState(false);
+    const [noResults, setNoResults] = useState<boolean>(false);
     const [searchTitle, setSearchTitle] = useState<string>(
         storageData?.searchTitle ?? '',
     );
@@ -89,6 +90,8 @@ export function MoviesListProvider({
                 setPagination,
                 isFetching,
                 setIsFetching,
+                noResults,
+                setNoResults,
             }}
         >
             {children}

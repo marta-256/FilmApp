@@ -7,17 +7,11 @@ import { MovieApi } from '../../api/MovieApi';
 import type { Movie } from '../../api/MovieApi.types';
 
 import noPoster from '../../assets/no-poster.png';
+import imdb from '../../assets/imdb.png';
 import { Loader } from '../../assets/Loader';
+import { movieDetailsKeys } from './constants/movieDetailsKeys';
 
-const omittedKeys = [
-    'Ratings',
-    'Title',
-    'imdbRating',
-    'imdbVotes',
-    'Poster',
-    'Year',
-    'Plot',
-];
+const imdbSite = 'https://www.imdb.com/title/';
 
 export function MovieBox() {
     const { movieId } = useParams();
@@ -41,7 +35,7 @@ export function MovieBox() {
         return (
             <section>
                 <Loader />
-                <p>We download your movie data</p>
+                <p>We are downloading movie data</p>
             </section>
         );
     }
@@ -49,13 +43,13 @@ export function MovieBox() {
     if (!movie) {
         return (
             <section>
-                <p>We didn't find such a movie</p>
+                <p>We couldn't find movie data</p>
             </section>
         );
     }
 
     const filteredDetails = Object.entries(movie)
-        .filter(([key]) => !omittedKeys.includes(key))
+        .filter(([key]) => movieDetailsKeys.includes(key))
         .map(([key, value]) => (
             <div className="detail" key={key}>
                 <strong>
@@ -76,7 +70,14 @@ export function MovieBox() {
                     </h2>
                     <p className="details">{movie.Runtime}</p>
                     <p className="details">
-                        {movie.imdbRating} / {movie.imdbVotes} votes
+                        <a href={imdbSite + movieId} className="movie-link">
+                            {movie.imdbRating} / {movie.imdbVotes} votes
+                            <img
+                                src={imdb}
+                                alt="Movie poster"
+                                className="imdb-icon"
+                            />
+                        </a>
                     </p>
                     <p className="details plot">{movie.Plot}</p>
                 </section>
