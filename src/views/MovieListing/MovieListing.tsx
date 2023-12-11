@@ -28,7 +28,7 @@ export function MovieListing(): React.ReactElement {
         if (noResults) {
             return (
                 <section>
-                    <p>{ErrorMessage.NO_MOVIE_DATA}</p>
+                    <p>{ErrorMessage.NO_RESULTS}</p>
                 </section>
             );
         }
