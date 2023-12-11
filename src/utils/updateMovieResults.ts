@@ -11,6 +11,7 @@ MoviesListProviderContextType,
 | 'setSearchedMovies'
 | 'setPagination'
 | 'setNoResults'
+| 'setSearchError'
 >;
 
 export async function updateMovieResults(contextParams: ContextParams) {
@@ -22,38 +23,48 @@ export async function updateMovieResults(contextParams: ContextParams) {
         setSearchedMovies,
         setPagination,
         setNoResults,
+        setSearchError,
     } = contextParams;
 
     const response = await fetchData(
         searchTitle,
-        searchYear.toString(),
+        searchYear,
         searchType,
         page,
         perPage,
     );
 
-    if (!response) {
-        setNoResults(true);
+    if (response.error) {
+        setSearchError(true);
         return;
     }
 
-    setSearchedMovies(response.Search ?? []);
+    const results = response.results;
 
-    const newTotalPages = Math.ceil(Number(response.totalResults) / perPage);
-    setPagination((prevState) => ({ ...prevState, totalPages: newTotalPages }));
+    if (!results) {
+        setNoResults(true);
+        localStorage.setItem('moviesList', JSON.stringify({}));
+    }
 
-    localStorage.setItem(
-        'moviesList',
-        JSON.stringify({
-            movies: response.Search,
-            pagination: {
-                totalPages: newTotalPages,
-                perPage,
-                page,
-            },
-            searchTitle,
-            searchType,
-            searchYear,
-        }),
-    );
+    if (results) {
+        setSearchedMovies(results.Search ?? []);
+        const newTotalPages = Math.ceil(results.totalResults / perPage);
+        setPagination((prevState) => ({ ...prevState, totalPages: newTotalPages }));
+
+        localStorage.setItem(
+            'moviesList',
+            JSON.stringify({
+                movies: results.Search,
+                pagination: {
+                    totalPages: newTotalPages,
+                    perPage,
+                    page,
+                },
+                searchTitle,
+                searchType,
+                searchYear,
+            }),
+        );
+    }
+
 }

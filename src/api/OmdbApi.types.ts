@@ -44,6 +44,6 @@ export type FetchMovieErrorResponse = {
 
 export type FetchMovieSuccessResponse = {
     Response: string;
-    Search?: Array<ListingMovie>;
-    totalResults?: string;
+    Search: Array<ListingMovie>;
+    totalResults: number;
 };

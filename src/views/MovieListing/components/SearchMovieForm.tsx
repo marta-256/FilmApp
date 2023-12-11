@@ -23,6 +23,7 @@ export function SearchMovieForm() {
         isFetching,
         setIsFetching,
         setNoResults,
+        setSearchError,
     } = useMovieContext();
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +42,7 @@ export function SearchMovieForm() {
         event.preventDefault();
         setIsFetching(true);
         setNoResults(false);
+        setSearchError(false);
         setPagination(paginationInitialState);
         await updateMovieResults({
             searchTitle,
@@ -50,6 +52,7 @@ export function SearchMovieForm() {
             setSearchedMovies,
             setPagination,
             setNoResults,
+            setSearchError,
         });
         setIsFetching(false);
     };

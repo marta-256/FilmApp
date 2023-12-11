@@ -17,6 +17,7 @@ export function Pagination() {
         isFetching,
         setIsFetching,
         setNoResults,
+        setSearchError,
     } = useMovieContext();
 
     const handlePageChange = async (
@@ -33,6 +34,7 @@ export function Pagination() {
             setSearchedMovies,
             setPagination,
             setNoResults,
+            setSearchError,
         });
         setIsFetching(false);
     };

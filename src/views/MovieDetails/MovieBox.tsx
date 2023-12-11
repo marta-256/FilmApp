@@ -10,20 +10,29 @@ import noPoster from '../../assets/no-poster.png';
 import imdb from '../../assets/imdb.png';
 import { Loader } from '../../assets/Loader';
 import { movieDetailsKeys } from './constants/movieDetailsKeys';
+import { ErrorMessage, InfoMessage } from './constants/message';
 
 const imdbSite = 'https://www.imdb.com/title/';
 
 export function MovieBox() {
     const { movieId } = useParams();
-    const [movie, setMovie] = useState<Movie | null>(null);
+    const [movie, setMovie] = useState<Movie | undefined>(undefined);
     const [isFetching, setIsFetching] = useState(false);
+    const [searchError, setSearchError] = useState<boolean>(false);
 
     useEffect(() => {
         if (movieId) {
             const getData = async () => {
                 setIsFetching(true);
                 const details = await fetchDetails(movieId);
-                setMovie(details || null);
+
+                if (details.error) {
+                    setSearchError(true);
+                    setIsFetching(false);
+                    return;
+                }
+
+                setMovie(details.results);
                 setIsFetching(false);
             };
             getData();
@@ -34,7 +43,15 @@ export function MovieBox() {
         return (
             <section>
                 <Loader />
-                <p>We are downloading movie data</p>
+                <p>{InfoMessage.DOWNLOADING_DATA}</p>
+            </section>
+        );
+    }
+
+    if (searchError) {
+        return (
+            <section>
+                <p>{ErrorMessage.EXPERIENCING_PROBLEMS}</p>
             </section>
         );
     }
@@ -42,7 +59,7 @@ export function MovieBox() {
     if (!movie) {
         return (
             <section>
-                <p>We couldn't find movie data</p>
+                <p>{ErrorMessage.NO_MOVIE_DATA}</p>
             </section>
         );
     }

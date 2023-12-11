@@ -11,13 +11,20 @@ const isErrorResponse = (
 ): response is FetchMovieErrorResponse =>
     typeof response === 'object' && response !== null && 'Error' in response;
 
+type ListingResult = {
+    error: true;
+} | {
+    error: false;
+    results?: FetchMovieSuccessResponse;
+};
+
 export const fetchData = async (
     searchTitle: string,
     searchYear: string,
     searchType: string,
     page: number,
     perPage: number,
-): Promise<FetchMovieSuccessResponse | undefined> => {
+): Promise<ListingResult> => {
     try {
         const url = new URL(baseApiUrl);
 
@@ -33,22 +40,37 @@ export const fetchData = async (
 
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            return { error: true };
         }
 
-        const jsonResponse = await response.json();
-        if (isErrorResponse(jsonResponse) && jsonResponse.Error) { //TODO handle errors on frontend (e.g. react-toastify)
-            console.error(jsonResponse.Error);
-            return undefined;
+        const results = await response.json();
+        if (isErrorResponse(results) && results.Error) { //TODO handle errors on frontend (e.g. react-toastify)
+            return {
+                error: false,
+                results: undefined,
+            };
         }
-        return jsonResponse;
+
+        return {
+            error: false,
+            results: {
+                ...results,
+                totalResults: Number(results.totalResults),
+            }
+        };
     } catch (error) {
-        console.error('Error fetching movies:', error);
-        throw error;
+        return { error: true };
     }
 };
 
-export const fetchDetails = async (id: string): Promise<Movie | undefined> => {
+type MovieResult = {
+    error: true;
+} | {
+    error: false;
+    results?: Movie;
+};
+
+export const fetchDetails = async (id: string): Promise<MovieResult> => {
     try {
         const url = new URL(baseApiUrl);
 
@@ -61,17 +83,25 @@ export const fetchDetails = async (id: string): Promise<Movie | undefined> => {
 
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            return { error: true };
         }
 
-        const jsonResponse = await response.json();
-        if (isErrorResponse(jsonResponse) && jsonResponse.Error) { //TODO handle errors on frontend (e.g. react-toastify)
-            console.error(jsonResponse.Error);
-            return undefined;
+        const results = await response.json();
+        if (isErrorResponse(results) && results.Error) { //TODO handle errors on frontend (e.g. react-toastify)
+            return {
+                error: false,
+                results: undefined,
+            };
         }
-        return jsonResponse;
+
+        return {
+            error: false,
+            results: {
+                ...results,
+                totalResults: Number(results.totalResults),
+            }
+        };
     } catch (error) {
-        console.error('Error fetching movie:', error);
-        throw error;
+        return { error: true };
     }
 };

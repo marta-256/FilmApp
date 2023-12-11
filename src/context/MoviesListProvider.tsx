@@ -23,6 +23,8 @@ export interface MoviesListProviderContextType {
     setIsFetching: React.Dispatch<React.SetStateAction<boolean>>;
     noResults: boolean;
     setNoResults: React.Dispatch<React.SetStateAction<boolean>>;
+    searchError: boolean;
+    setSearchError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface MoviesListProviderProps {
@@ -60,6 +62,7 @@ export function MoviesListProvider({
 }: MoviesListProviderProps): React.ReactElement {
     const [isFetching, setIsFetching] = useState(false);
     const [noResults, setNoResults] = useState<boolean>(false);
+    const [searchError, setSearchError] = useState<boolean>(false);
     const [searchTitle, setSearchTitle] = useState<string>(
         storageData?.searchTitle ?? '',
     );
@@ -92,6 +95,8 @@ export function MoviesListProvider({
                 setIsFetching,
                 noResults,
                 setNoResults,
+                searchError,
+                setSearchError,
             }}
         >
             {children}
