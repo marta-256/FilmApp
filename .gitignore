@@ -4,6 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
+.DS_Store
+.idea/
+src/.DS_Store
+src/views/.DS_Store
 
 # production
 /build
