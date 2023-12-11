@@ -1,32 +1,41 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { PaginationContent } from '../styled/PaginationContent';
 
 import { useMovieContext } from '../../../context/MoviesListProvider';
-import { useUpdateMovieResults } from '../../../hooks/useUpdateMovieResults';
 import { usePageButtons } from '../../../hooks/usePageButtons';
+import { updateMovieResults } from '../../../utils/updateMovieResults';
 
 export function Pagination() {
     const {
-        pagination: { perPage, page },
+        pagination,
         setPagination,
         searchTitle,
         searchYear,
         searchType,
-        setIsFetching,
+        setSearchedMovies,
         isFetching,
+        setIsFetching,
+        setNoResults,
     } = useMovieContext();
 
-    const handlePageChange = useCallback(
-        async (event: React.MouseEvent<HTMLButtonElement>) => {
-            setIsFetching(true);
-            const newPage = Number((event.target as HTMLButtonElement).value);
-            setPagination((prevState) => ({ ...prevState, page: newPage }));
-            await useUpdateMovieResults();
-            setIsFetching(false);
-        },
-        [perPage, searchType, searchYear, searchTitle, page],
-    );
+    const handlePageChange = async (
+        event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+        setIsFetching(true);
+        const newPage = Number((event.target as HTMLButtonElement).value);
+        setPagination((prevState) => ({ ...prevState, page: newPage }));
+        await updateMovieResults({
+            searchTitle,
+            searchYear,
+            searchType,
+            pagination: { ...pagination, page: newPage },
+            setSearchedMovies,
+            setPagination,
+            setNoResults,
+        });
+        setIsFetching(false);
+    };
 
     return (
         <PaginationContent $isLoading={isFetching}>

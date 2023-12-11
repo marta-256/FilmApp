@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { StyledForm } from '../styled/StyledForm';
 
@@ -6,7 +6,7 @@ import {
     paginationInitialState,
     useMovieContext,
 } from '../../../context/MoviesListProvider';
-import { useUpdateMovieResults } from '../../../hooks/useUpdateMovieResults';
+import { updateMovieResults } from '../../../utils/updateMovieResults';
 import { Loader } from '../../../assets/Loader';
 
 export function SearchMovieForm() {
@@ -17,7 +17,8 @@ export function SearchMovieForm() {
         setSearchYear,
         searchType,
         setSearchType,
-        pagination: { perPage, page },
+        pagination,
+        setSearchedMovies,
         setPagination,
         isFetching,
         setIsFetching,
@@ -36,17 +37,22 @@ export function SearchMovieForm() {
         setSearchType(event.target.value);
     };
 
-    const handleSubmit = useCallback(
-        async (event: React.ChangeEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            setIsFetching(true);
-            setNoResults(false);
-            setPagination(paginationInitialState);
-            await useUpdateMovieResults();
-            setIsFetching(false);
-        },
-        [searchTitle, searchYear, searchType, page, perPage],
-    );
+    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setIsFetching(true);
+        setNoResults(false);
+        setPagination(paginationInitialState);
+        await updateMovieResults({
+            searchTitle,
+            searchYear,
+            searchType,
+            pagination,
+            setSearchedMovies,
+            setPagination,
+            setNoResults,
+        });
+        setIsFetching(false);
+    };
 
     return (
         <StyledForm onSubmit={handleSubmit}>

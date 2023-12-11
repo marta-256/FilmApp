@@ -11,13 +11,12 @@ const isErrorResponse = (
 ): response is FetchMovieErrorResponse =>
     typeof response === 'object' && response !== null && 'Error' in response;
 
-
 export const fetchData = async (
     searchTitle: string,
     searchYear: string,
     searchType: string,
-    pageNumber: number,
-    moviesPerPage: number,
+    page: number,
+    perPage: number,
 ): Promise<FetchMovieSuccessResponse | undefined> => {
     try {
         const url = new URL(baseApiUrl);
@@ -25,10 +24,10 @@ export const fetchData = async (
         const searchParams = new URLSearchParams();
         searchParams.set('apikey', API_KEY);
         searchParams.set('s', searchTitle);
-        searchParams.set('y', searchYear);
+        searchParams.set('y', searchYear.toString());
         searchParams.set('type', searchType);
-        searchParams.set('page', pageNumber.toString());
-        searchParams.set('rpp', moviesPerPage.toString());
+        searchParams.set('page', page.toString());
+        searchParams.set('rpp', perPage.toString());
 
         url.search = searchParams.toString();
 

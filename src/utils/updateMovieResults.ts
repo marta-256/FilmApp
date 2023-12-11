@@ -1,10 +1,19 @@
 import { fetchData } from '../api/OmdbApi';
 
-import { useMovieContext } from '../context/MoviesListProvider';
+import type { MoviesListProviderContextType } from '../context/MoviesListProvider';
 
-export async function useUpdateMovieResults(
+type ContextParams = Pick<
+MoviesListProviderContextType,
+| 'searchTitle'
+| 'searchYear'
+| 'searchType'
+| 'pagination'
+| 'setSearchedMovies'
+| 'setPagination'
+| 'setNoResults'
+>;
 
-) {
+export async function updateMovieResults(contextParams: ContextParams) {
     const {
         searchTitle,
         searchYear,
@@ -13,7 +22,7 @@ export async function useUpdateMovieResults(
         setSearchedMovies,
         setPagination,
         setNoResults,
-    } = useMovieContext();
+    } = contextParams;
 
     const response = await fetchData(
         searchTitle,
@@ -22,13 +31,17 @@ export async function useUpdateMovieResults(
         page,
         perPage,
     );
+
     if (!response) {
         setNoResults(true);
         return;
     }
+
     setSearchedMovies(response.Search ?? []);
+
     const newTotalPages = Math.ceil(Number(response.totalResults) / perPage);
     setPagination((prevState) => ({ ...prevState, totalPages: newTotalPages }));
+
     localStorage.setItem(
         'moviesList',
         JSON.stringify({

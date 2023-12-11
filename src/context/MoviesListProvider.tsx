@@ -8,7 +8,7 @@ export interface Pagination {
     totalPages: number;
 }
 
-interface MoviesListProviderContextType {
+export interface MoviesListProviderContextType {
     searchTitle: string;
     setSearchTitle: React.Dispatch<React.SetStateAction<string>>;
     searchYear: string;

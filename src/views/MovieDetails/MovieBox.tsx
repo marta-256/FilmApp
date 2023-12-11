@@ -23,8 +23,7 @@ export function MovieBox() {
             const getData = async () => {
                 setIsFetching(true);
                 const details = await fetchDetails(movieId);
-                setMovie(details ?? null);
-                localStorage.setItem('movieDetails', JSON.stringify(details ?? null));
+                setMovie(details || null);
                 setIsFetching(false);
             };
             getData();
