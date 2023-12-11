@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 
-import type { ListingMovie } from '../api/MovieApi.types';
+import type { ListingMovie } from '../api/OmdbApi.types';
 
 export interface Pagination {
     page: number;

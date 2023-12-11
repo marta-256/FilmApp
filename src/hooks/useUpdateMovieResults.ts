@@ -1,4 +1,4 @@
-import { MovieApi } from '../api/MovieApi';
+import { fetchData } from '../api/OmdbApi';
 
 import { useMovieContext } from '../context/MoviesListProvider';
 
@@ -15,15 +15,16 @@ export async function useUpdateMovieResults(
         setNoResults,
     } = useMovieContext();
 
-    const response = await MovieApi.fetchMovies(
+    const response = await fetchData(
         searchTitle,
         searchYear.toString(),
         searchType,
         page,
         perPage,
     );
-    if (!response.Search) {
+    if (!response) {
         setNoResults(true);
+        return;
     }
     setSearchedMovies(response.Search ?? []);
     const newTotalPages = Math.ceil(Number(response.totalResults) / perPage);

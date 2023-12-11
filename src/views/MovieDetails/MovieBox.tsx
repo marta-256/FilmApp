@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import { MoviePresentation } from './styled/MoviePresentation';
 
-import { MovieApi } from '../../api/MovieApi';
-import type { Movie } from '../../api/MovieApi.types';
+import { fetchDetails } from '../../api/OmdbApi';
+import type { Movie } from '../../api/OmdbApi.types';
 
 import noPoster from '../../assets/no-poster.png';
 import imdb from '../../assets/imdb.png';
@@ -22,9 +22,9 @@ export function MovieBox() {
         if (movieId) {
             const getData = async () => {
                 setIsFetching(true);
-                const data = await MovieApi.fetchMovieDetails(movieId);
-                setMovie(data);
-                localStorage.setItem('movieDetails', JSON.stringify(data));
+                const details = await fetchDetails(movieId);
+                setMovie(details ?? null);
+                localStorage.setItem('movieDetails', JSON.stringify(details ?? null));
                 setIsFetching(false);
             };
             getData();
