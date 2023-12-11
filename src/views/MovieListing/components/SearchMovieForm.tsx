@@ -6,7 +6,7 @@ import {
     paginationInitialState,
     useMovieContext,
 } from '../../../context/MoviesListProvider';
-import { updateMovieResults } from '../../../utils/updateMovieResults';
+import { useUpdateMovieResults } from '../../../hooks/useUpdateMovieResults';
 import { Loader } from '../../../assets/Loader';
 
 export function SearchMovieForm() {
@@ -18,7 +18,6 @@ export function SearchMovieForm() {
         searchType,
         setSearchType,
         pagination: { perPage, page },
-        setSearchedMovies,
         setPagination,
         isFetching,
         setIsFetching,
@@ -43,16 +42,7 @@ export function SearchMovieForm() {
             setIsFetching(true);
             setNoResults(false);
             setPagination(paginationInitialState);
-            await updateMovieResults(
-                searchTitle,
-                searchYear,
-                searchType,
-                perPage,
-                page,
-                setPagination,
-                setSearchedMovies,
-                setNoResults,
-            );
+            await useUpdateMovieResults();
             setIsFetching(false);
         },
         [searchTitle, searchYear, searchType, page, perPage],

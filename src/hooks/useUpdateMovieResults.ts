@@ -1,20 +1,20 @@
-import type React from 'react';
-
 import { MovieApi } from '../api/MovieApi';
-import type { Pagination } from '../context/MoviesListProvider';
 
-import type { ListingMovie } from '../api/MovieApi.types';
+import { useMovieContext } from '../context/MoviesListProvider';
 
-export async function updateMovieResults(
-    searchTitle: string,
-    searchYear: string,
-    searchType: string,
-    perPage: number,
-    page: number,
-    setPagination: React.Dispatch<React.SetStateAction<Pagination>>,
-    setSearchedMovies: React.Dispatch<React.SetStateAction<Array<ListingMovie> | null>>,
-    setNoResults: React.Dispatch<React.SetStateAction<boolean>>,
+export async function useUpdateMovieResults(
+
 ) {
+    const {
+        searchTitle,
+        searchYear,
+        searchType,
+        pagination: { perPage, page },
+        setSearchedMovies,
+        setPagination,
+        setNoResults,
+    } = useMovieContext();
+
     const response = await MovieApi.fetchMovies(
         searchTitle,
         searchYear.toString(),

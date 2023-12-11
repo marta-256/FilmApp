@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { PaginationContent } from '../styled/PaginationContent';
 
 import { useMovieContext } from '../../../context/MoviesListProvider';
-import { updateMovieResults } from '../../../utils/updateMovieResults';
+import { useUpdateMovieResults } from '../../../hooks/useUpdateMovieResults';
 import { usePageButtons } from '../../../hooks/usePageButtons';
 
 export function Pagination() {
@@ -13,10 +13,8 @@ export function Pagination() {
         searchTitle,
         searchYear,
         searchType,
-        setSearchedMovies,
         setIsFetching,
         isFetching,
-        setNoResults,
     } = useMovieContext();
 
     const handlePageChange = useCallback(
@@ -24,16 +22,7 @@ export function Pagination() {
             setIsFetching(true);
             const newPage = Number((event.target as HTMLButtonElement).value);
             setPagination((prevState) => ({ ...prevState, page: newPage }));
-            await updateMovieResults(
-                searchTitle,
-                searchYear,
-                searchType,
-                perPage,
-                newPage,
-                setPagination,
-                setSearchedMovies,
-                setNoResults,
-            );
+            await useUpdateMovieResults();
             setIsFetching(false);
         },
         [perPage, searchType, searchYear, searchTitle, page],
